@@ -1,3 +1,4 @@
+import Image from "next/image";
 /**
  * ホームページのヘッダーコンポーネント
  */
@@ -8,9 +9,11 @@ export function HomeHeader() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             {/* アプリロゴ */}
-            <img
+            <Image
               src="/icons/app-icon.png"
               alt="アプリアイコン"
+              width={32}
+              height={32}
               className="w-8 h-8 rounded-lg object-cover border border-gray-200 shadow-sm"
             />
             <h1 className="text-xl font-bold text-gray-900">
