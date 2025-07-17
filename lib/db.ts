@@ -27,9 +27,7 @@ export interface Person {
  * クイズ設定を表すインターフェース
  */
 export interface QuizSettings {
-  target: "all" | "unmemorized"; // 対象: 全員 or 未記憶のみ
   mode: "face-to-name" | "name-to-face"; // モード: 顔→名前 or 名前→顔
-  departmentFilter?: string; // 部署フィルター
   autoPromotion: "off" | "2" | "3" | "4"; // 自動昇格設定
 }
 
@@ -286,9 +284,7 @@ class DatabaseService {
     const db = await this.init();
     await db.put("quizSettings", {
       id: "current",
-      target: settings.target,
       mode: settings.mode,
-      departmentFilter: settings.departmentFilter,
       autoPromotion: settings.autoPromotion || "off",
     });
   }
@@ -302,7 +298,6 @@ class DatabaseService {
     const settings = await db.get("quizSettings", "current");
     return (
       settings || {
-        target: "unmemorized",
         mode: "face-to-name",
         autoPromotion: "off",
       }

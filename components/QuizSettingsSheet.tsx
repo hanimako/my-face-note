@@ -27,8 +27,6 @@ export function QuizSettingsSheet({
 }: QuizSettingsSheetProps) {
   // フォームデータ（設定変更中の状態）
   const [formData, setFormData] = useState<QuizSettings>(settings);
-  // 部署一覧（フィルター用）
-  const [departments, setDepartments] = useState<string[]>([]);
   // 未保存の変更があるかどうか
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
@@ -37,21 +35,8 @@ export function QuizSettingsSheet({
     if (isOpen) {
       setFormData(settings);
       setHasUnsavedChanges(false);
-      loadDepartments();
     }
   }, [isOpen, settings]);
-
-  /**
-   * 部署一覧を取得
-   */
-  const loadDepartments = async () => {
-    try {
-      const depts = await db.getDepartments();
-      setDepartments(depts);
-    } catch (error) {
-      console.error("所属データの読み込みに失敗しました:", error);
-    }
-  };
 
   /**
    * 設定変更時の処理（状態のみ更新、保存は行わない）
@@ -127,48 +112,11 @@ export function QuizSettingsSheet({
 
         {/* コンテンツ */}
         <div className="p-4 space-y-6 pb-8">
-          {/* 出題対象選択 */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-3">出題対象</h3>
-            <div className="space-y-2">
-              <label className="flex items-center space-x-3">
-                <input
-                  type="radio"
-                  name="target"
-                  value="all"
-                  checked={formData.target === "all"}
-                  onChange={(e) =>
-                    handleSettingChange({
-                      ...formData,
-                      target: e.target.value as "all" | "unmemorized",
-                    })
-                  }
-                  className="text-blue-600 focus:ring-blue-500"
-                />
-                <span className="text-sm text-gray-700">全員</span>
-              </label>
-              <label className="flex items-center space-x-3">
-                <input
-                  type="radio"
-                  name="target"
-                  value="unmemorized"
-                  checked={formData.target === "unmemorized"}
-                  onChange={(e) =>
-                    handleSettingChange({
-                      ...formData,
-                      target: e.target.value as "all" | "unmemorized",
-                    })
-                  }
-                  className="text-blue-600 focus:ring-blue-500"
-                />
-                <span className="text-sm text-gray-700">未記憶のみ</span>
-              </label>
-            </div>
-          </div>
-
           {/* モード選択 */}
           <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-3">モード</h3>
+            <h3 className="text-sm font-medium text-gray-700 mb-3">
+              出題モード
+            </h3>
             <div className="space-y-2">
               <label className="flex items-center space-x-3">
                 <input
@@ -184,7 +132,7 @@ export function QuizSettingsSheet({
                   }
                   className="text-blue-600 focus:ring-blue-500"
                 />
-                <span className="text-sm text-gray-700">顔→名前</span>
+                <span className="text-sm text-gray-700">顔 → 名前</span>
               </label>
               <label className="flex items-center space-x-3">
                 <input
@@ -200,7 +148,7 @@ export function QuizSettingsSheet({
                   }
                   className="text-blue-600 focus:ring-blue-500"
                 />
-                <span className="text-sm text-gray-700">名前→顔</span>
+                <span className="text-sm text-gray-700">名前 → 顔</span>
               </label>
             </div>
           </div>
@@ -276,30 +224,6 @@ export function QuizSettingsSheet({
                 <span className="text-sm text-gray-700">4連続正解</span>
               </label>
             </div>
-          </div>
-
-          {/* 部署フィルター */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-3">
-              所属フィルタ
-            </h3>
-            <select
-              value={formData.departmentFilter || ""}
-              onChange={(e) =>
-                handleSettingChange({
-                  ...formData,
-                  departmentFilter: e.target.value || undefined,
-                })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-            >
-              <option value="">すべての所属</option>
-              {departments.map((dept) => (
-                <option key={dept} value={dept}>
-                  {dept}
-                </option>
-              ))}
-            </select>
           </div>
         </div>
       </div>

@@ -28,7 +28,6 @@ export function useQuiz() {
   const [people, setPeople] = useState<Person[]>([]);
   // クイズ設定
   const [settings, setSettings] = useState<QuizSettings>({
-    target: "unmemorized",
     mode: "face-to-name",
     autoPromotion: "off",
   });
@@ -120,8 +119,7 @@ export function useQuiz() {
   const loadData = useCallback(async () => {
     const [peopleData, settingsData] = await Promise.all([
       db.getPeople({
-        unmemorizedOnly: settings.target === "unmemorized",
-        department: settings.departmentFilter,
+        unmemorizedOnly: true, // 「覚えた」以外を固定対象
       }),
       db.getQuizSettings(),
     ]);
@@ -130,12 +128,7 @@ export function useQuiz() {
     if (!currentQuestion) {
       generateQuestion(peopleData, settingsData);
     }
-  }, [
-    settings.target,
-    settings.departmentFilter,
-    currentQuestion,
-    generateQuestion,
-  ]);
+  }, [currentQuestion, generateQuestion]);
 
   // 初回マウント時にデータ取得
   useEffect(() => {
@@ -205,8 +198,7 @@ export function useQuiz() {
     setSettings(newSettings);
     setIsSettingsOpen(false);
     const peopleData = await db.getPeople({
-      unmemorizedOnly: newSettings.target === "unmemorized",
-      department: newSettings.departmentFilter,
+      unmemorizedOnly: true, // 「覚えた」以外を固定対象
     });
     setPeople(peopleData);
     setAnsweredQuestions(new Set());
