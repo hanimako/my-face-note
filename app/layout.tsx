@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "顔と名前をおぼえる帳",
   description: "介護向け記憶支援Webアプリ。顔と名前を覚えることを支援します。",
+  other: {
+    "google-fonts":
+      "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=optional",
+  },
 };
 
 export const viewport: Viewport = {
@@ -20,6 +24,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="/icons/icon-192x192.png"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="192x192"
+          href="/icons/icon-192x192.png"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="512x512"
+          href="/icons/icon-5122.png"
+        />
+      </head>
       <body className="bg-gray-50 text-gray-900">{children}</body>
     </html>
   );

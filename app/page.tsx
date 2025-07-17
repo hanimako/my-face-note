@@ -78,7 +78,7 @@ export default function Home() {
       loadData(); // 一覧を更新
     } catch (error) {
       console.error("登録に失敗しました:", error);
-      setError("利用者の登録に失敗しました。もう一度お試しください。");
+      setError("人物の登録に失敗しました。もう一度お試しください。");
     }
   };
 
@@ -98,7 +98,7 @@ export default function Home() {
       loadData(); // 一覧を更新
     } catch (error) {
       console.error("更新に失敗しました:", error);
-      setError("利用者の更新に失敗しました。もう一度お試しください。");
+      setError("人物の更新に失敗しました。もう一度お試しください。");
     }
   };
 
@@ -116,7 +116,7 @@ export default function Home() {
       loadData(); // 一覧を更新
     } catch (error) {
       console.error("削除に失敗しました:", error);
-      setError("利用者の削除に失敗しました。もう一度お試しください。");
+      setError("人物の削除に失敗しました。もう一度お試しください。");
     }
   };
 
@@ -141,6 +141,7 @@ export default function Home() {
           people={people}
           onQuizClick={() => (window.location.href = "/quiz")}
           onAppSettingsClick={() => setIsAppSettingsOpen(true)}
+          showQuizButton={!!people && people.length > 0}
         />
 
         {/* フィルター - 人物が存在する場合のみ表示 */}
@@ -188,7 +189,7 @@ export default function Home() {
         {/* 空状態のガイダンス */}
         {people && people.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-gray-400 text-lg opacity-30 pointer-events-none">
+            <div className="text-blue-600 font-semibold text-lg">
               カードを追加してスタート！
             </div>
           </div>
@@ -225,7 +226,7 @@ export default function Home() {
       <Modal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        title="利用者を登録"
+        title="人物を登録"
         showLogo={true}
         showCloseButton={true}
       >
@@ -239,7 +240,7 @@ export default function Home() {
       <Modal
         isOpen={!!editingPerson}
         onClose={() => setEditingPerson(null)}
-        title="利用者を編集"
+        title="人物を編集"
         showCloseButton={true}
       >
         {editingPerson && (

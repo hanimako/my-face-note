@@ -1,0 +1,20 @@
+{
+  "name": "顔と名前を覚える帳",
+  "short_name": "顔と名前帳",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5faff",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

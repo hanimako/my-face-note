@@ -8,10 +8,11 @@ export function HomeHeader() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             {/* アプリロゴ */}
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              {" "}
-              <span className="text-white font-bold text-sm">M</span>
-            </div>
+            <img
+              src="/icons/app-icon.png"
+              alt="アプリアイコン"
+              className="w-8 h-8 rounded-lg object-cover border border-gray-200 shadow-sm"
+            />
             <h1 className="text-xl font-bold text-gray-900">
               顔と名前をおぼえる帳
             </h1>

@@ -7,12 +7,14 @@ interface HomeActionsProps {
   people: Person[] | undefined;
   onQuizClick: () => void;
   onAppSettingsClick: () => void;
+  showQuizButton?: boolean;
 }
 
 export function HomeActions({
   people,
   onQuizClick,
   onAppSettingsClick,
+  showQuizButton = true,
 }: HomeActionsProps) {
   return (
     <div className="relative mb-6">
@@ -26,25 +28,27 @@ export function HomeActions({
         </button>
       </div>
 
-      {/* 名前当てクイズボタン - 中央に角丸カード風で配置 */}
-      <div className="flex justify-center pt-12">
-        <button
-          onClick={onQuizClick}
-          disabled={!people || people.length === 0}
-          className="bg-white rounded-2xl shadow-lg border border-gray-200 max-w-md w-full p-6 transition-all duration-200 ease-in-out hover:shadow-xl hover:scale-[1.02] hover:bg-gradient-to-br hover:from-[#f5faff] hover:to-[#e6f3ff] hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-        >
-          <div className="text-center">
-            <div className="text-4xl mb-4">📋</div>
-            <div className="flex items-center justify-center space-x-2 mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">
-                名前当てクイズ
-              </h3>
-              <span className="text-lg">▶️</span>
+      {/* 名前当てクイズボタン - showQuizButtonがtrueのときのみ表示 */}
+      {showQuizButton && (
+        <div className="flex justify-center pt-12">
+          <button
+            onClick={onQuizClick}
+            disabled={!people || people.length === 0}
+            className="w-full bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-gray-300 shadow-sm hover:shadow-md hover:border-blue-400 hover:bg-blue-50 cursor-pointer transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <div className="text-center">
+              <div className="text-4xl mb-4">📋</div>
+              <div className="flex items-center justify-center space-x-2 mb-3">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  名前当てクイズ
+                </h3>
+                <span className="text-lg">▶️</span>
+              </div>
+              <p className="text-sm text-gray-600">タップして挑戦</p>
             </div>
-            <p className="text-sm text-gray-600">タップして挑戦</p>
-          </div>
-        </button>
-      </div>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
