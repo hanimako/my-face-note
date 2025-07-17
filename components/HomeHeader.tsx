@@ -14,7 +14,7 @@ export function HomeHeader() {
               alt="アプリアイコン"
               width={32}
               height={32}
-              className="w-8 h-8 rounded-lg object-cover border border-gray-200 shadow-sm"
+              className="w-8 h-8 rounded-lg object-cover"
             />
             <h1 className="text-xl font-bold text-gray-900">
               顔と名前をおぼえる帳

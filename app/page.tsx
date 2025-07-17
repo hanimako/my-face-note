@@ -6,6 +6,7 @@ import { Modal } from "@/components/ui/Modal";
 import { PersonForm } from "@/components/PersonForm";
 import { PersonCard } from "@/components/PersonCard";
 import { AppSettingsSheet } from "@/components/AppSettingsSheet";
+import { FirstLaunchSheet } from "@/components/FirstLaunchSheet";
 import { HomeHeader } from "@/components/HomeHeader";
 import { HomeActions } from "@/components/HomeActions";
 
@@ -33,6 +34,7 @@ export default function Home() {
     department: "", // 部署フィルター
   });
   const [isAppSettingsOpen, setIsAppSettingsOpen] = useState(false);
+  const [isFirstLaunchOpen, setIsFirstLaunchOpen] = useState(false);
 
   /**
    * 人物・部署データを取得
@@ -51,6 +53,11 @@ export default function Home() {
       ]);
       setPeople(peopleData);
       setDepartments(departmentsData);
+
+      // 初回起動の判定（カードが0件の場合）
+      if (peopleData.length === 0) {
+        setIsFirstLaunchOpen(true);
+      }
     } catch (error) {
       console.error("データの読み込みに失敗しました:", error);
       setError(
@@ -186,15 +193,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* 空状態のガイダンス */}
-        {people && people.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-blue-600 font-semibold text-lg">
-              カードを追加してスタート！
-            </div>
-          </div>
-        )}
-
         {/* 人物グリッド */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {/* 追加カード - 常に最初に表示 */}
@@ -257,6 +255,12 @@ export default function Home() {
       <AppSettingsSheet
         isOpen={isAppSettingsOpen}
         onClose={() => setIsAppSettingsOpen(false)}
+      />
+
+      {/* 初回起動シート */}
+      <FirstLaunchSheet
+        isOpen={isFirstLaunchOpen}
+        onClose={() => setIsFirstLaunchOpen(false)}
       />
     </div>
   );
