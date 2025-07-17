@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Person, db } from "@/lib/db";
-import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { PersonForm } from "@/components/PersonForm";
 import { PersonCard } from "@/components/PersonCard";
