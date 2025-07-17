@@ -1,0 +1,131 @@
+"use client";
+
+import React, { useState } from "react";
+import { db } from "@/lib/db";
+import { Button } from "@/components/ui/Button";
+
+/**
+ * アプリ設定シートのプロパティ
+ */
+interface AppSettingsSheetProps {
+  isOpen: boolean; // シートの開閉状態
+  onClose: () => void; // 閉じる時のコールバック
+}
+
+/**
+ * アプリ設定を管理するシートコンポーネント
+ * - 全データ削除機能
+ */
+export function AppSettingsSheet({ isOpen, onClose }: AppSettingsSheetProps) {
+  // 削除確認ダイアログの表示状態
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  /**
+   * 全データ削除の処理
+   */
+  const handleClearAllData = async () => {
+    if (
+      !confirm("本当にすべてのデータを削除しますか？この操作は取り消せません。")
+    ) {
+      return;
+    }
+
+    try {
+      await db.clearAllData();
+      alert("すべてのデータを削除しました");
+      setShowDeleteConfirm(false);
+      onClose();
+      window.location.reload(); // ページを再読み込み
+    } catch (error) {
+      console.error("データの削除に失敗しました:", error);
+      alert("データの削除に失敗しました");
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center sm:justify-end">
+      {/* 背景オーバーレイ */}
+      <div
+        className="absolute inset-0 bg-black bg-opacity-50"
+        onClick={onClose}
+      />
+
+      {/* シート本体 */}
+      <div className="relative w-full bg-white rounded-t-lg shadow-xl max-h-[90vh] overflow-y-auto sm:w-80 sm:h-full sm:rounded-l-lg sm:rounded-r-none sm:rounded-t-none">
+        {/* ヘッダー */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <div className="flex items-center space-x-3">
+            <h2 className="text-lg font-semibold text-gray-900">アプリ設定</h2>
+            {/* モバイル用ドラッグハンドル */}
+            <div className="w-6 h-1 bg-gray-300 rounded-full sm:hidden"></div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* コンテンツ */}
+        <div className="p-4 space-y-6">
+          {/* 全データ削除 */}
+          <div>
+            <h3 className="text-sm font-medium text-gray-700 mb-3">
+              データ管理
+            </h3>
+            <Button
+              variant="destructive"
+              onClick={() => setShowDeleteConfirm(true)}
+              className="w-full"
+            >
+              すべてのデータを削除
+            </Button>
+          </div>
+        </div>
+
+        {/* 削除確認ダイアログ */}
+        {showDeleteConfirm && (
+          <div className="fixed inset-0 z-60 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg p-6 mx-4 max-w-sm">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">確認</h3>
+              <p className="text-gray-600 mb-6">
+                すべての利用者データと設定を削除します。この操作は取り消せません。
+              </p>
+              <div className="flex space-x-3">
+                <Button
+                  variant="destructive"
+                  onClick={handleClearAllData}
+                  className="flex-1"
+                >
+                  削除する
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowDeleteConfirm(false)}
+                  className="flex-1"
+                >
+                  キャンセル
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
