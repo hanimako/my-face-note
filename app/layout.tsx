@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "顔と名前をおぼえる帳",
-  description: "介護向け記憶支援Webアプリ。顔と名前を覚えることを支援します。",
+  title: "名前をおぼえる帳",
+  description: "顔と名前を覚えることを支援します。",
 };
 
 export const viewport: Viewport = {

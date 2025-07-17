@@ -39,7 +39,11 @@ export function QuizOptions({
                     isCorrect ? "text-green-600" : "text-red-600"
                   }`}
                 >
-                  {isCorrect ? "⚪" : "✕"}
+                  {isCorrect ? (
+                    <div className="w-16 h-16 border-4 border-green-600 rounded-full bg-transparent"></div>
+                  ) : (
+                    "✕"
+                  )}
                 </div>
               </div>
             )}

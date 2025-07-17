@@ -227,7 +227,7 @@ export default function Home() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         title="人物を登録"
-        showLogo={true}
+        showLogo={false}
         showCloseButton={true}
       >
         <PersonForm

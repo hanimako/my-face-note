@@ -29,7 +29,7 @@ export default function QuizPage() {
         <div className="flex justify-end mb-6">
           <button
             onClick={() => setIsSettingsOpen(true)}
-            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-colors text-sm font-medium"
+            className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white rounded-lg shadow-sm transition-colors text-sm font-medium"
           >
             ⚙ クイズ設定
           </button>

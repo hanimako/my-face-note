@@ -22,7 +22,7 @@ export function HomeActions({
       <div className="absolute top-0 z-10 right-0">
         <button
           onClick={onAppSettingsClick}
-          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-colors text-sm font-medium"
+          className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white rounded-lg shadow-sm transition-colors text-sm font-medium"
         >
           ⚙ アプリ設定
         </button>

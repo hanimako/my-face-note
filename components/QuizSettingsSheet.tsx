@@ -82,14 +82,15 @@ export function QuizSettingsSheet({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center sm:justify-end">
-      {/* 背景オーバーレイ */}
+      {/* 背景オーバーレイ - インラインスタイルで透明度を確実に設定 */}
       <div
-        className="absolute inset-0 bg-black bg-opacity-50"
+        className="absolute inset-0 bg-black transition-opacity duration-300"
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
         onClick={handleClose}
       />
 
-      {/* シート本体 */}
-      <div className="relative w-full bg-white rounded-t-lg shadow-xl max-h-[90vh] overflow-y-auto sm:w-80 sm:h-full sm:rounded-l-lg sm:rounded-r-none sm:rounded-t-none">
+      {/* シート本体 - アニメーション効果を追加 */}
+      <div className="relative w-full bg-white rounded-t-lg shadow-xl max-h-[90vh] overflow-y-auto sm:w-80 sm:h-full sm:rounded-l-lg sm:rounded-r-none sm:rounded-t-none transform transition-all duration-300 ease-out animate-slide-up">
         {/* ヘッダー */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <div className="flex items-center space-x-3">
@@ -125,7 +126,7 @@ export function QuizSettingsSheet({
         </div>
 
         {/* コンテンツ */}
-        <div className="p-4 space-y-6">
+        <div className="p-4 space-y-6 pb-8">
           {/* 出題対象選択 */}
           <div>
             <h3 className="text-sm font-medium text-gray-700 mb-3">出題対象</h3>

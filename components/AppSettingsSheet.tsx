@@ -46,14 +46,15 @@ export function AppSettingsSheet({ isOpen, onClose }: AppSettingsSheetProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center sm:justify-end">
-      {/* 背景オーバーレイ */}
+      {/* 背景オーバーレイ - 透明度を下げて下の画面を薄く見えるように */}
       <div
-        className="absolute inset-0 bg-black bg-opacity-50"
+        className="absolute inset-0 bg-black transition-opacity duration-300"
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
         onClick={onClose}
       />
 
-      {/* シート本体 */}
-      <div className="relative w-full bg-white rounded-t-lg shadow-xl max-h-[90vh] overflow-y-auto sm:w-80 sm:h-full sm:rounded-l-lg sm:rounded-r-none sm:rounded-t-none">
+      {/* シート本体 - アニメーション効果を追加 */}
+      <div className="relative w-full bg-white rounded-t-lg shadow-xl max-h-[90vh] overflow-y-auto sm:w-80 sm:h-full sm:rounded-l-lg sm:rounded-r-none sm:rounded-t-none transform transition-all duration-300 ease-out animate-slide-up">
         {/* ヘッダー */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <div className="flex items-center space-x-3">
@@ -82,12 +83,15 @@ export function AppSettingsSheet({ isOpen, onClose }: AppSettingsSheetProps) {
         </div>
 
         {/* コンテンツ */}
-        <div className="p-4 space-y-6">
+        <div className="p-4 space-y-6 pb-8">
           {/* 全データ削除 */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-3">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-red-700 mb-3">
               データ管理
             </h3>
+            <p className="text-xs text-red-600 mb-3">
+              すべての利用者データと設定を削除します。この操作は取り消せません。
+            </p>
             <Button
               variant="destructive"
               onClick={() => setShowDeleteConfirm(true)}
@@ -100,8 +104,8 @@ export function AppSettingsSheet({ isOpen, onClose }: AppSettingsSheetProps) {
 
         {/* 削除確認ダイアログ */}
         {showDeleteConfirm && (
-          <div className="fixed inset-0 z-60 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg p-6 mx-4 max-w-sm">
+          <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg p-6 mx-4 max-w-sm transform transition-all duration-300 ease-out animate-scale-in">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">確認</h3>
               <p className="text-gray-600 mb-6">
                 すべての利用者データと設定を削除します。この操作は取り消せません。

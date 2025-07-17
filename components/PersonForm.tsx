@@ -24,7 +24,7 @@ export function PersonForm({
     department: person?.department || "",
     memo: person?.memo || "",
     photo: person?.photo || "",
-    memorizationStatus: person?.memorizationStatus || ("untried" as const),
+    memorizationStatus: "untried" as const,
     consecutiveCorrect: person?.consecutiveCorrect || 0,
   });
   const [departments, setDepartments] = useState<string[]>([]);
@@ -76,11 +76,6 @@ export function PersonForm({
       return;
     }
 
-    if (!formData.photo) {
-      alert("写真を選択してください");
-      return;
-    }
-
     onSubmit(formData);
   };
 
@@ -88,9 +83,7 @@ export function PersonForm({
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Photo Section */}
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-gray-700">
-          顔写真
-        </label>
+        <label className="block text-sm font-medium text-gray-700">画像</label>
         <div className="flex items-center space-x-4">
           {formData.photo ? (
             <Image
@@ -194,27 +187,6 @@ export function PersonForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           placeholder="メモを入力"
         />
-      </div>
-
-      {/* Memorization Status */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          記憶状態
-        </label>
-        <select
-          value={formData.memorizationStatus}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              memorizationStatus: e.target.value as MemorizationStatus,
-            }))
-          }
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option value="untried">未挑戦</option>
-          <option value="learning">学習中</option>
-          <option value="memorized">覚えた</option>
-        </select>
       </div>
 
       {/* Action Buttons */}

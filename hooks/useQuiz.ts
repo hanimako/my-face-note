@@ -153,28 +153,33 @@ export function useQuiz() {
     const correct = selected.id === currentQuestion.correctAnswer.id;
     setIsCorrect(correct);
 
-    if (correct) {
-      // 正解の場合は記憶状態を更新
-      const newConsecutiveCorrect =
-        currentQuestion.correctAnswer.consecutiveCorrect + 1;
+    // クイズに参加した人物の記憶状態を更新
+    const targetPerson = currentQuestion.correctAnswer;
+    let newStatus: MemorizationStatus = "learning"; // 参加時は最低限「学習中」
+    let newConsecutiveCorrect = targetPerson.consecutiveCorrect;
 
-      let newStatus: MemorizationStatus =
-        currentQuestion.correctAnswer.memorizationStatus;
+    if (correct) {
+      // 正解の場合は連続正解数を増加
+      newConsecutiveCorrect = targetPerson.consecutiveCorrect + 1;
+
+      // 自動昇格設定が有効な場合
       if (settings.autoPromotion !== "off") {
         const requiredConsecutive = parseInt(settings.autoPromotion);
         if (newConsecutiveCorrect >= requiredConsecutive) {
           newStatus = "memorized";
-        } else if (newConsecutiveCorrect >= 1) {
-          newStatus = "learning";
         }
       }
-
-      db.updateMemorizationStatus(
-        currentQuestion.correctAnswer.id,
-        newStatus,
-        newConsecutiveCorrect
-      );
+    } else {
+      // 不正解の場合は連続正解数をリセット
+      newConsecutiveCorrect = 0;
     }
+
+    // 記憶状態を更新
+    db.updateMemorizationStatus(
+      targetPerson.id,
+      newStatus,
+      newConsecutiveCorrect
+    );
 
     // 回答済み問題に追加
     setAnsweredQuestions(
