@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "名前をおぼえる帳",
-  description: "顔と名前を覚えることを支援します。",
+  description: "名前を覚えることを支援します。",
 };
 
 export const viewport: Viewport = {

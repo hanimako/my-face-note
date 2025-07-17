@@ -69,13 +69,23 @@ export function QuizOptions({
               ) : (
                 // 名前→顔モード: 写真と名前を表示
                 <div className="text-center">
-                  <Image
-                    src={option.photo}
-                    alt={option.name}
-                    width={96}
-                    height={96}
-                    className="rounded-lg object-cover mx-auto mb-2 border border-gray-200"
-                  />
+                  {option.id.startsWith("dummy-") ? (
+                    // ダミー選択肢の場合：「No Image」を表示
+                    <div className="w-24 h-24 bg-gray-200 border border-gray-300 rounded-lg flex items-center justify-center mx-auto mb-2">
+                      <span className="text-gray-500 text-xs font-medium">
+                        No Image
+                      </span>
+                    </div>
+                  ) : (
+                    // 実際の人物の場合：写真を表示
+                    <Image
+                      src={option.photo}
+                      alt={option.name}
+                      width={96}
+                      height={96}
+                      className="rounded-lg object-cover mx-auto mb-2 border border-gray-200"
+                    />
+                  )}
                   <div className="text-sm font-medium text-gray-900">
                     {option.name}
                   </div>

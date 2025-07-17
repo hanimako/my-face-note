@@ -1,6 +1,6 @@
 {
-  "name": "顔と名前を覚える帳",
-  "short_name": "顔と名前帳",
+  "name": "名前をおぼえる帳",
+  "short_name": "名前帳",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f5faff",
