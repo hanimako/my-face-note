@@ -22,6 +22,10 @@ export default function Home() {
   const [people, setPeople] = useState<Person[]>();
   // 部署一覧（フィルター用）
   const [departments, setDepartments] = useState<string[]>([]);
+  // 全データ数（フィルター適用前）
+  const [totalCount, setTotalCount] = useState<number>(0);
+  // 「覚えた」以外のデータ数
+  const [unmemorizedCount, setUnmemorizedCount] = useState<number>(0);
   // 追加モーダルの開閉状態
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   // 編集中の人物（null = 編集中でない）
@@ -44,18 +48,23 @@ export default function Home() {
     try {
       setError(null);
       // 人物データと部署データを並行取得
-      const [peopleData, departmentsData] = await Promise.all([
-        db.getPeople({
-          unmemorizedOnly: filters.unmemorizedOnly,
-          department: filters.department || undefined,
-        }),
-        db.getDepartments(),
-      ]);
+      const [peopleData, departmentsData, totalCount, unmemorizedCount] =
+        await Promise.all([
+          db.getPeople({
+            unmemorizedOnly: filters.unmemorizedOnly,
+            department: filters.department || undefined,
+          }),
+          db.getDepartments(),
+          db.getTotalPeopleCount(),
+          db.getUnmemorizedPeopleCount(),
+        ]);
       setPeople(peopleData);
       setDepartments(departmentsData);
+      setTotalCount(totalCount);
+      setUnmemorizedCount(unmemorizedCount);
 
-      // 初回起動の判定（カードが0件の場合）
-      if (peopleData.length === 0) {
+      // 初回起動の判定（全データが0件の場合のみ）
+      if (totalCount === 0) {
         setIsFirstLaunchOpen(true);
       }
     } catch (error) {
@@ -127,6 +136,25 @@ export default function Home() {
     }
   };
 
+  /**
+   * 記憶状態を手動で変更
+   * @param id 変更対象の人物ID
+   * @param newStatus 新しい記憶状態
+   */
+  const handleMemorizationChange = async (
+    id: string,
+    newStatus: "untried" | "learning" | "memorized"
+  ) => {
+    try {
+      setError(null);
+      await db.updateMemorizationStatus(id, newStatus, 0); // 連続正解数はリセット
+      loadData(); // 一覧を更新
+    } catch (error) {
+      console.error("記憶状態の更新に失敗しました:", error);
+      setError("記憶状態の更新に失敗しました。もう一度お試しください。");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <HomeHeader />
@@ -146,13 +174,14 @@ export default function Home() {
         {/* アクション部分 */}
         <HomeActions
           people={people}
+          totalCount={totalCount}
+          unmemorizedCount={unmemorizedCount}
           onQuizClick={() => (window.location.href = "/quiz")}
           onAppSettingsClick={() => setIsAppSettingsOpen(true)}
-          showQuizButton={!!people && people.length > 0}
         />
 
-        {/* フィルター - 人物が存在する場合のみ表示 */}
-        {people && people.length > 0 && (
+        {/* フィルター - 全データが存在する場合のみ表示 */}
+        {totalCount > 0 && (
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
             <div className="flex flex-wrap gap-4">
               {/* 未記憶のみフィルター */}
@@ -215,6 +244,7 @@ export default function Home() {
                 key={person.id}
                 person={person}
                 onEdit={() => setEditingPerson(person)}
+                onMemorizationChange={handleMemorizationChange}
               />
             ))}
         </div>

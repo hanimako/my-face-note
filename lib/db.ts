@@ -219,6 +219,26 @@ class DatabaseService {
   }
 
   /**
+   * 全データ数を取得（フィルター適用なし）
+   * @returns 全データ数
+   */
+  async getTotalPeopleCount(): Promise<number> {
+    const db = await this.init();
+    const people = await db.getAll("people");
+    return people.length;
+  }
+
+  /**
+   * 「覚えた」以外のデータ数を取得
+   * @returns 「覚えた」以外のデータ数
+   */
+  async getUnmemorizedPeopleCount(): Promise<number> {
+    const db = await this.init();
+    const people = await db.getAll("people");
+    return people.filter((p) => p.memorizationStatus !== "memorized").length;
+  }
+
+  /**
    * 部署一覧を取得（人数の降順で上位10件）
    * @returns 部署名の配列
    */
@@ -282,7 +302,7 @@ class DatabaseService {
     const settings = await db.get("quizSettings", "current");
     return (
       settings || {
-        target: "all",
+        target: "unmemorized",
         mode: "face-to-name",
         autoPromotion: "off",
       }

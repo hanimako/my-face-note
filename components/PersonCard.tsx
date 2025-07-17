@@ -5,41 +5,68 @@ import { Person } from "@/lib/db";
 interface PersonCardProps {
   person: Person;
   onEdit: () => void;
+  onMemorizationChange?: (
+    personId: string,
+    newStatus: "untried" | "learning" | "memorized"
+  ) => void;
 }
 
-const getMemorizationPill = (person: Person) => {
+const getMemorizationPill = (
+  person: Person,
+  onMemorizationChange?: (
+    personId: string,
+    newStatus: "untried" | "learning" | "memorized"
+  ) => void
+) => {
   const config = {
     untried: {
       label: "未挑戦",
       className: "bg-gray-100 text-gray-600",
+      next: "learning" as const,
     },
     learning: {
       label: "学習中",
       className: "bg-blue-100 text-blue-600",
+      next: "memorized" as const,
     },
     memorized: {
       label: "覚えた",
       className: "bg-green-100 text-green-600",
+      next: "untried" as const,
     },
   };
 
   const status = person.memorizationStatus;
   const configItem = config[status];
 
+  const handleClick = () => {
+    if (onMemorizationChange) {
+      onMemorizationChange(person.id, configItem.next);
+    }
+  };
+
   return (
-    <div
-      className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium ${configItem.className}`}
+    <button
+      onClick={handleClick}
+      className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium transition-colors hover:opacity-80 ${configItem.className}`}
+      aria-label={`記憶状態を変更: ${configItem.label} → ${
+        config[configItem.next].label
+      }`}
     >
       {configItem.label}
-    </div>
+    </button>
   );
 };
 
-export function PersonCard({ person, onEdit }: PersonCardProps) {
+export function PersonCard({
+  person,
+  onEdit,
+  onMemorizationChange,
+}: PersonCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow relative">
       {/* Memorization Pill */}
-      {getMemorizationPill(person)}
+      {getMemorizationPill(person, onMemorizationChange)}
 
       {/* Photo */}
       <div className="flex justify-center mb-3">

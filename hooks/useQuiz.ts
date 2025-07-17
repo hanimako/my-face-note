@@ -28,7 +28,7 @@ export function useQuiz() {
   const [people, setPeople] = useState<Person[]>([]);
   // クイズ設定
   const [settings, setSettings] = useState<QuizSettings>({
-    target: "all",
+    target: "unmemorized",
     mode: "face-to-name",
     autoPromotion: "off",
   });

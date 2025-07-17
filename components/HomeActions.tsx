@@ -5,16 +5,18 @@ import { Person } from "@/lib/db";
  */
 interface HomeActionsProps {
   people: Person[] | undefined;
+  totalCount: number;
+  unmemorizedCount: number;
   onQuizClick: () => void;
   onAppSettingsClick: () => void;
-  showQuizButton?: boolean;
 }
 
 export function HomeActions({
   people,
+  totalCount,
+  unmemorizedCount,
   onQuizClick,
   onAppSettingsClick,
-  showQuizButton = true,
 }: HomeActionsProps) {
   return (
     <div className="relative mb-6">
@@ -28,12 +30,12 @@ export function HomeActions({
         </button>
       </div>
 
-      {/* 名前当てクイズボタン - showQuizButtonがtrueのときのみ表示 */}
-      {showQuizButton && (
+      {/* 名前当てクイズボタン - 全データが0件以外の場合のみ表示 */}
+      {totalCount > 0 && (
         <div className="flex justify-center pt-12">
           <button
             onClick={onQuizClick}
-            disabled={!people || people.length === 0}
+            disabled={unmemorizedCount === 0}
             className="w-full bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-gray-300 shadow-sm hover:shadow-md hover:border-blue-400 hover:bg-blue-50 cursor-pointer transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <div className="text-center py-2">
@@ -43,7 +45,11 @@ export function HomeActions({
                 </h3>
                 <span className="text-lg">▶️</span>
               </div>
-              <p className="text-sm text-gray-600">タップして挑戦</p>
+              <p className="text-sm text-gray-600">
+                {unmemorizedCount === 0
+                  ? "すべて覚えました！"
+                  : "タップして挑戦"}
+              </p>
             </div>
           </button>
         </div>
