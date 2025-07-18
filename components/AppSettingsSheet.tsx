@@ -90,7 +90,7 @@ export function AppSettingsSheet({ isOpen, onClose }: AppSettingsSheetProps) {
               データ管理
             </h3>
             <p className="text-xs text-red-600 mb-3">
-              すべての利用者データと設定を削除します。この操作は取り消せません。
+              すべての人物データを削除します。この操作は取り消せません。
             </p>
             <Button
               variant="destructive"
