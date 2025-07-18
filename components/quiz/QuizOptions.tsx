@@ -76,8 +76,8 @@ export function QuizOptions({
                         No Image
                       </span>
                     </div>
-                  ) : (
-                    // 実際の人物の場合：写真を表示
+                  ) : // 実際の人物の場合：写真を表示
+                  option.photo && option.photo.trim() !== "" ? (
                     <Image
                       src={option.photo}
                       alt={option.name}
@@ -85,6 +85,13 @@ export function QuizOptions({
                       height={96}
                       className="rounded-lg object-cover mx-auto mb-2 border border-gray-200"
                     />
+                  ) : (
+                    // 画像がない場合：「No Image」を表示
+                    <div className="w-24 h-24 bg-gray-200 border border-gray-300 rounded-lg flex items-center justify-center mx-auto mb-2">
+                      <span className="text-gray-500 text-xs font-medium">
+                        No Image
+                      </span>
+                    </div>
                   )}
                   <div className="text-sm font-medium text-gray-900">
                     {option.name}

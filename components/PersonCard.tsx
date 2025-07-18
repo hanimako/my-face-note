@@ -70,13 +70,20 @@ export function PersonCard({
 
       {/* Photo */}
       <div className="flex justify-center mb-3">
-        <Image
-          src={person.photo}
-          alt={person.name}
-          width={80}
-          height={80}
-          className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
-        />
+        {person.photo && person.photo.trim() !== "" ? (
+          <Image
+            src={person.photo}
+            alt={person.name}
+            width={80}
+            height={80}
+            className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
+          />
+        ) : (
+          // 画像がない場合：「No Image」を表示
+          <div className="w-20 h-20 rounded-full bg-gray-200 border-2 border-gray-300 flex items-center justify-center">
+            <span className="text-gray-500 text-xs font-medium">No Image</span>
+          </div>
+        )}
       </div>
 
       {/* Name */}

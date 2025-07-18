@@ -23,7 +23,8 @@ export function FirstLaunchSheet({ isOpen, onClose }: FirstLaunchSheetProps) {
       <div
         className="absolute inset-0 bg-black transition-opacity duration-300"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-        onClick={onClose}
+        // 初期表示シートでは外側クリックでの閉じる動作を無効化
+        // onClick={onClose}
       />
 
       {/* シート本体 - アニメーション効果を追加 */}
