@@ -189,20 +189,10 @@ export function PersonForm({
         />
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex space-x-3 pt-4">
-        <Button type="submit" className="flex-1" disabled={isLoading}>
-          {isLoading ? "処理中..." : "保存する"}
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={onCancel}
-          disabled={isLoading}
-        >
-          キャンセル
-        </Button>
-        {onDelete && (
+      {/* Action Buttons - Material Design原則に従った配置 */}
+      <div className="flex justify-between items-center pt-4">
+        {/* 左側: 破壊的アクション（削除）またはプレースホルダー */}
+        {onDelete ? (
           <Button
             type="button"
             variant="destructive"
@@ -211,7 +201,24 @@ export function PersonForm({
           >
             削除
           </Button>
+        ) : (
+          <div className="w-20"></div>
         )}
+
+        {/* 中央: 副次的アクション（キャンセル） */}
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={onCancel}
+          disabled={isLoading}
+        >
+          キャンセル
+        </Button>
+
+        {/* 右側: 主要アクション（保存） */}
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? "処理中..." : "保存する"}
+        </Button>
       </div>
     </form>
   );

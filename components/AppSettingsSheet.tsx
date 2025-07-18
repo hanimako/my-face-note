@@ -110,21 +110,22 @@ export function AppSettingsSheet({ isOpen, onClose }: AppSettingsSheetProps) {
               <p className="text-gray-600 mb-6">
                 すべての利用者データと設定を削除します。この操作は取り消せません。
               </p>
-              <div className="flex space-x-3">
-                <Button
-                  variant="destructive"
-                  onClick={handleClearAllData}
-                  className="flex-1"
-                >
+              <div className="flex justify-between items-center">
+                {/* 左側: 破壊的アクション（削除） */}
+                <Button variant="destructive" onClick={handleClearAllData}>
                   削除する
                 </Button>
+
+                {/* 中央: 副次的アクション（キャンセル） */}
                 <Button
                   variant="secondary"
                   onClick={() => setShowDeleteConfirm(false)}
-                  className="flex-1"
                 >
                   キャンセル
                 </Button>
+
+                {/* 右側: プレースホルダー（バランス調整） */}
+                <div className="w-20"></div>
               </div>
             </div>
           </div>
