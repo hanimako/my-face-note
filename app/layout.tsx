@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "名前をおぼえる帳",
-  description: "名前を覚えることを支援します。",
+  description: "写真と名前を登録して、クイズ形式で復習して名前をおぼえるアプリ",
 };
 
 export const viewport: Viewport = {
